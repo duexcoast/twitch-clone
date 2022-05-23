@@ -23,7 +23,6 @@ export const fetchAllStreams = createAsyncThunk(
   async () => {
     try {
       const { data } = await streams.get("/streams");
-      console.log("is the error HERE?");
       return data;
     } catch (err) {
       console.log(err);
@@ -80,8 +79,8 @@ const streamSlice = createSlice({
       state.loading = false;
       state.stream = action.payload.reduce(
         (map, item) => ({ ...map, [item.id]: item }),
-        {})
-        console.log(state.stream);
+        {}
+      );
     });
     builder.addCase(fetchAllStreams.rejected, (state, action) => {
       state.loading = false;
@@ -92,7 +91,7 @@ const streamSlice = createSlice({
     });
     builder.addCase(fetchStreamById.fulfilled, (state, action) => {
       state.loading = false;
-      state.stream = { ...state, [action.payload.id]: action.payload };
+      state.stream = { ...state.stream, [action.payload.id]: action.payload };
     });
     builder.addCase(fetchStreamById.rejected, (state, action) => {
       state.loading = false;
@@ -103,7 +102,7 @@ const streamSlice = createSlice({
     });
     builder.addCase(createStream.fulfilled, (state, action) => {
       state.loading = false;
-      state.stream = { ...state, [action.payload.id]: action.payload };
+      state.stream = { ...state.stream, [action.payload.id]: action.payload };
       history.push("/");
     });
     builder.addCase(createStream.rejected, (state, action) => {
@@ -115,7 +114,7 @@ const streamSlice = createSlice({
     });
     builder.addCase(editStream.fulfilled, (state, action) => {
       state.loading = false;
-      state.stream = { ...state, [action.payload.id]: action.payload };
+      state.stream = { ...state.stream, [action.payload.id]: action.payload };
     });
     builder.addCase(editStream.rejected, (state, action) => {
       state.loading = false;
@@ -126,7 +125,7 @@ const streamSlice = createSlice({
     });
     builder.addCase(deleteStream.fulfilled, (state, action) => {
       state.loading = false;
-      state.stream = delete state[action.payload];
+      state.stream = delete state.stream[action.payload];
     });
     builder.addCase(deleteStream.rejected, (state, action) => {
       state.loading = false;

@@ -1,7 +1,0 @@
-Hey Bobby, 
-
-I've spent the last couple of hours trying to debug this and can't figure out for the life of me what I'm doing wrong. Everything was working perfectly up until now. 
-
-When I click the Create Stream button, I am navigated to path="/" , but the component runs into the Error I put above: Cannot read properties of null (reading 'userId'). 
-
-I can then refresh the page, and the StreamCreate.js component renders perfectly, and the list of streams contains the stream I just created. I'm at a loss for why the component is unable to access my redux store when I navigate to it this way, but it works totally fine when I navigate normally. My only guess is that 
