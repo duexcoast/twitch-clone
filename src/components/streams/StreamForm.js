@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -22,21 +22,25 @@ const StreamForm = (props) => {
     props.onFormSubmit(formData);
   };
 
-  // Conditional Default Values
+  // Destructure initialValues prop to remove the unneeded properties.
 
   // useForm Hook - initializing React Hook Form
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      title: "",
-      description: "",
-    },
+    defaultValues: useMemo(() => {
+      return props.initialValues;
+    }, [props.initialValues]),
     mode: "onTouched",
   });
+
+  useEffect(() => {
+    reset(props.initialValues);
+  }, [props.initialValues, reset]);
 
   // Dynamic Error message on failed form validation
   const renderError = (inputName) => {

@@ -42,17 +42,16 @@ export const fetchStreamById = createAsyncThunk(
   }
 );
 
-export const editStream = createAsyncThunk(
-  "streams/edit",
-  async (id, formValues) => {
-    try {
-      const { data } = await streams.put(`/streams/${id}`, formValues);
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
+export const editStream = createAsyncThunk("streams/edit", async (editData) => {
+  try {
+    // console.log("edit data", editData);
+    const { id, ...formValues } = editData;
+    const { data } = await streams.patch(`/streams/${id}`, formValues);
+    return data;
+  } catch (err) {
+    console.log(err);
   }
-);
+});
 
 export const deleteStream = createAsyncThunk("streams/delete", async (id) => {
   try {
@@ -115,6 +114,7 @@ const streamSlice = createSlice({
     builder.addCase(editStream.fulfilled, (state, action) => {
       state.loading = false;
       state.stream = { ...state.stream, [action.payload.id]: action.payload };
+      history.push("/");
     });
     builder.addCase(editStream.rejected, (state, action) => {
       state.loading = false;
@@ -126,6 +126,7 @@ const streamSlice = createSlice({
     builder.addCase(deleteStream.fulfilled, (state, action) => {
       state.loading = false;
       state.stream = delete state.stream[action.payload];
+      history.push("/");
     });
     builder.addCase(deleteStream.rejected, (state, action) => {
       state.loading = false;
